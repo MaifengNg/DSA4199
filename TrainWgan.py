@@ -58,6 +58,9 @@ def train_wgan(image_size, batch_size, epochs, device, loader, path_save, resume
     # for tensorboard plotting
     fixed_noise = torch.randn(64, Z_DIM, 1, 1).to(device)
 
+    # create a fix vector for generating images 
+    fixed_image_vector = torch.randn(NUMBER_OF_IMAGES_TO_GENERATE, Z_DIM, 1, 1, device=device)
+
     if resume_training:
         modelPath = os.path.join(path_save, 'model.tar')
         checkpoint = torch.load(modelPath)
@@ -206,7 +209,7 @@ def train_wgan(image_size, batch_size, epochs, device, loader, path_save, resume
             except FileExistsError:
                 print(f'{every_100_epoch_dir} exist. Overwriting exisiting files.')
 
-            noise = torch.randn(NUMBER_OF_IMAGES_TO_GENERATE, Z_DIM, 1, 1, device=device)
+            noise = fixed_image_vector
             fake = gen(noise)
 
             numberOfImagesGenerated = fake.shape[0]
@@ -222,7 +225,7 @@ def train_wgan(image_size, batch_size, epochs, device, loader, path_save, resume
     """
     Save images generated
     """
-    noise = torch.randn(NUMBER_OF_IMAGES_TO_GENERATE, Z_DIM, 1, 1, device=device)
+    noise = fixed_image_vector
     fake = gen(noise)
 
     numberOfImagesGenerated = fake.shape[0]

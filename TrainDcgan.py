@@ -74,6 +74,9 @@ def train_dcgan(image_size, batch_size, epochs, device, loader, path_save, resum
     #  the progression of the generator
     fixed_noise = torch.randn(64, Z_DIM, 1, 1, device=device)
 
+    # create a fix vector for generating images 
+    fixed_image_vector = torch.randn(NUMBER_OF_IMAGES_TO_GENERATE, Z_DIM, 1, 1, device=device)
+
     # Establish convention for real and fake labels during training
     real_label = 1.
     fake_label = 0.
@@ -270,7 +273,7 @@ def train_dcgan(image_size, batch_size, epochs, device, loader, path_save, resum
             except FileExistsError:
                 print(f'{every_100_epoch_dir} exist. Overwriting exisiting files.')
 
-            noise = torch.randn(NUMBER_OF_IMAGES_TO_GENERATE, Z_DIM, 1, 1, device=device)
+            noise = fixed_image_vector
             fake = netG(noise)
 
             numberOfImagesGenerated = fake.shape[0]
@@ -288,7 +291,7 @@ def train_dcgan(image_size, batch_size, epochs, device, loader, path_save, resum
     """
     Save images generated
     """
-    noise = torch.randn(NUMBER_OF_IMAGES_TO_GENERATE, Z_DIM, 1, 1, device=device)
+    noise = fixed_image_vector
     fake = netG(noise)
 
     numberOfImagesGenerated = fake.shape[0]
