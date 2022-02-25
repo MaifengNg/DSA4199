@@ -93,7 +93,7 @@ if __name__ == "__main__":
     print(f'Using dataset of size {num_images_for_training} to train')
 
     print(f'Image size {IMAGE_SIZE}')
-    if (IMAGE_SIZE != 64 or IMAGE_SIZE != 128):
+    if (IMAGE_SIZE != 64 and IMAGE_SIZE != 128):
         print(f'Image size given is not 64 nor 128. Will use default image size as 64.')
         IMAGE_SIZE = 64
     
@@ -106,7 +106,7 @@ if __name__ == "__main__":
         print(f'Epochs not provided, will use default epoch as 500.')
     
     print(f'Gan Type {GAN_TYPE}')
-    if (GAN_TYPE != 'dcgan' or GAN_TYPE != 'wgan'):
+    if (GAN_TYPE != 'dcgan' and GAN_TYPE != 'wgan'):
         print(f'Gan type provided is incorrect. Will use default dcgan as the GAN type.')
         GAN_TYPE = 'dcgan'
     
